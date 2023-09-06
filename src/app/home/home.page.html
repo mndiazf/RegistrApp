@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Header</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <h1>Content</h1>
+</ion-content>
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="home-sharp"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="login" (click)="goToLoginPage()">
+      <ion-icon name="person-sharp"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
