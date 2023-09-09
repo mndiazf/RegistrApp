@@ -1,24 +1,28 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Iniciar Sesión</ion-title>
+    <ion-title>Iniciar sesion</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" [fullscreen]="true">
-  <form>
-    <mat-form-field class="full-width">
-      <mat-label>Usuario</mat-label>
-      <input matInput placeholder="" value="">
-    </mat-form-field>
+<ion-content [fullscreen]="true">
+  <div class="contenedor" text-center>
+  <form action="">
 
-    <mat-form-field class="full-width">
-      <mat-label>Contraseña</mat-label>
-      <input matInput placeholder="" value="">
-    </mat-form-field>
-    <ion-button mat-button>Iniciar sesion</ion-button>
-  </form>
-
-  <div class="reset-password">
-    <a>¿Olvidaste tu contraseña?</a>
+    <div class="label-input">
+    <ion-input label="Usuario" label-placement="floating" fill="outline" placeholder=""[(ngModel)]="username" name="username" required></ion-input>
+    </div>
+    <div class="label-input">
+    <ion-input label="Contraseña" type="password" label-placement="floating" fill="outline" placeholder=""></ion-input>
   </div>
+  <div class="login-button">
+    <!-- activacion de las funciones de navigation extras y animaciones al darle click al boton-->
+    <ion-button expand="block" [disabled]="!username" (click)="submitForm()" (click)="playAnimation()">iniciar sesion</ion-button>
+  </div>
+  <div class="forgot-password">
+    <a [routerLink]="['/forgot-password']">¿Olvidaste tu contraseña?</a>
+  </div>
+</form>
+</div>
 </ion-content>
+
+
