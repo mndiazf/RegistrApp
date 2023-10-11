@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
+import { ServiciousuarioService } from 'src/app/services/serviciousuario.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -9,7 +10,7 @@ import { AnimationController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   username: string = '';
 
-  constructor(private animationCtrl: AnimationController, private router: Router) { }
+  constructor(private animationCtrl: AnimationController, private router: Router, private serviceUsuario:ServiciousuarioService) { }
 
   //Implementacion de navigation extras
   submitForm() {
@@ -19,6 +20,7 @@ export class LoginPage implements OnInit {
           username: this.username
         }
       };
+      this.serviceUsuario.capturarUsuario(this.username);
 
       setTimeout(() => {
         this.router.navigate(['/home'], navigationExtras);
