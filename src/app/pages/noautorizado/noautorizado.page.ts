@@ -7,8 +7,23 @@ import { AnimationController } from '@ionic/angular';
   styleUrls: ['./noautorizado.page.scss'],
 })
 export class NoautorizadoPage implements OnInit {
+  private audioPlayer: HTMLAudioElement;
 
-  constructor(private animationCtrl: AnimationController) { }
+  constructor(private animationCtrl: AnimationController) {
+        // Obtén una referencia al elemento de audio
+        this.audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
+
+        // Configura el audio para reproducirse en un bucle infinito
+        this.audioPlayer.loop = true;
+      }
+    
+      playAudio() {
+        this.audioPlayer.play();
+      }
+    
+      pauseAudio() {
+        this.audioPlayer.pause();
+   }
 
   ngOnInit() {
     
