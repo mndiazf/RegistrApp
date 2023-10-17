@@ -5,14 +5,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="contenedor" text-center>
+  <div class="contenedor ion-padding" text-center>
   <form action="">
 
     <div class="label-input">
     <ion-input label="Usuario" label-placement="floating" fill="outline" placeholder=""[(ngModel)]="username" name="username" required></ion-input>
     </div>
     <div class="label-input">
-    <ion-input label="Contraseña" type="password" label-placement="floating" fill="outline" placeholder=""></ion-input>
+    <ion-input label="Contraseña" type="password" label-placement="floating" [(ngModel)]="password" name="password" fill="outline" placeholder=""></ion-input>
   </div>
   <div class="login-button">
     <!-- activacion de las funciones de navigation extras y animaciones al darle click al boton-->

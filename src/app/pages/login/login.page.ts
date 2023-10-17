@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
+import { DatabaseService, User } from 'src/app/services/database.service';
 import { ServiciousuarioService } from 'src/app/services/serviciousuario.service';
 @Component({
   selector: 'app-login',
@@ -9,19 +10,21 @@ import { ServiciousuarioService } from 'src/app/services/serviciousuario.service
 })
 export class LoginPage implements OnInit {
   username: string = '';
+  password: string = '';
 
-  constructor(private animationCtrl: AnimationController, private router: Router, private serviceUsuario:ServiciousuarioService) { }
+  constructor(private animationCtrl: AnimationController, private router: Router, private serviceUsuario:ServiciousuarioService, private databaseService:DatabaseService) { }
 
   //Implementacion de navigation extras
-  submitForm() {
-    if (this.username.trim() !== '') {
+  async submitForm() {
+    const users: User[] = await this.databaseService.loadUsers();
+    const user = users.find((u) => u.name === this.username && u.password === this.password);
+    if (user) {
       let navigationExtras: NavigationExtras = {
         state: {
           username: this.username
         }
       };
       this.serviceUsuario.capturarUsuario(this.username);
-
       setTimeout(() => {
         this.router.navigate(['/home'], navigationExtras);
       }, 300);
@@ -32,6 +35,7 @@ export class LoginPage implements OnInit {
   
 
   ngOnInit() {
+    this.databaseService.initializeDatabase;
   }
 
   //Implementacion de animaciones Ionic 
