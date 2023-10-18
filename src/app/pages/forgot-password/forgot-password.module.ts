@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
+
 
 import { IonicModule } from '@ionic/angular';
 
@@ -16,6 +18,7 @@ import { ForgotPasswordPage } from './forgot-password.page';
     FormsModule,
     IonicModule,
     ForgotPasswordPageRoutingModule,
+    MatButtonModule,
     MatInputModule,
     MatFormFieldModule
   ],
