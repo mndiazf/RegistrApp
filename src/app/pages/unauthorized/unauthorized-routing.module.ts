@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NoautorizadoPage } from './noautorizado.page';
+import { UnauthorizedPage } from './unauthorized.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: NoautorizadoPage
+    component: UnauthorizedPage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class NoautorizadoPageRoutingModule {}
+export class UnauthorizedPageRoutingModule {}

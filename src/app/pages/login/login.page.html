@@ -1,28 +1,26 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Iniciar sesion</ion-title>
+    <ion-title>
+      Iniciar Sesión
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="contenedor ion-padding" text-center>
-  <form action="">
+<ion-content class="ion-padding">
+  <ion-list>
+  <ion-item>
+    <ion-label position="floating">Nombre de Usuario</ion-label>
+    <ion-input [(ngModel)]="username"></ion-input>
+  </ion-item>
 
-    <div class="label-input">
-    <ion-input label="Usuario" label-placement="floating" fill="outline" placeholder=""[(ngModel)]="username" name="username" required></ion-input>
-    </div>
-    <div class="label-input">
-    <ion-input label="Contraseña" type="password" label-placement="floating" [(ngModel)]="password" name="password" fill="outline" placeholder=""></ion-input>
-  </div>
-  <div class="login-button">
-    <!-- activacion de las funciones de navigation extras y animaciones al darle click al boton-->
-    <ion-button expand="block" [disabled]="!username" (click)="submitForm()" (click)="playAnimation()">iniciar sesion</ion-button>
-  </div>
+  <ion-item>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input [(ngModel)]="password" type="password"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" [disabled]="!username" (click)="submitForm()">Iniciar Sesión</ion-button>
   <div class="forgot-password">
     <a [routerLink]="['/forgot-password']">¿Olvidaste tu contraseña?</a>
   </div>
-</form>
-</div>
+  </ion-list>
 </ion-content>
-
-

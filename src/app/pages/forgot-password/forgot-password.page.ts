@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ForgotPasswordPage implements OnInit {
 
+
   username: string = '';
 
     // Funcion para redireccionar al login
@@ -22,5 +23,4 @@ export class ForgotPasswordPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

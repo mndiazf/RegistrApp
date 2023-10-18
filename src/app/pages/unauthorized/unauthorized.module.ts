@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { NoautorizadoPageRoutingModule } from './noautorizado-routing.module';
+import { UnauthorizedPageRoutingModule } from './unauthorized-routing.module';
 
-import { NoautorizadoPage } from './noautorizado.page';
+import { UnauthorizedPage } from './unauthorized.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NoautorizadoPageRoutingModule
+    UnauthorizedPageRoutingModule
   ],
-  declarations: [NoautorizadoPage]
+  declarations: [UnauthorizedPage]
 })
-export class NoautorizadoPageModule {}
+export class UnauthorizedPageModule {}

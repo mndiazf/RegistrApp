@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="ion-padding">
   <div class="gatoenojaodiv">
     <img class="my-image"  src="../../../assets/unauthorizedCat.png" alt="">
   </div>
@@ -12,10 +13,7 @@
     <h1>Que pa con vooooo oeeee!!!</h1>
     <h2>Sale! Sale! Sale! Sale!</h2>
   </div>
-  <ion-button expand="full" routerLink="/login">Volver a Login</ion-button>
+  <ion-button expand="full" routerLink="/login" (click)="stopAudio()">Volver a Login</ion-button>
+  </div>
 </ion-content>
 
-<audio id="errorAudio" loop>
-  <source src="../../../assets/Angry_Cat_Meow_-_Sound_Effect.mp3" type="audio/mpeg">
-  Tu navegador no admite la reproducción de audio.
-</audio>
