@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UserGuard } from './guards/user.guard';
+import { UnauthorizedPage } from './pages/unauthorized/unauthorized.page';
 
 const routes: Routes = [
   {
@@ -21,10 +22,7 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: () => import('./pages/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
-  {
-    path: 'unauthorized',
-    loadChildren: () => import('./pages/unauthorized/unauthorized.module').then( m => m.UnauthorizedPageModule)
-  },
+  { path: '**', component: UnauthorizedPage }
 ];
 
 @NgModule({
