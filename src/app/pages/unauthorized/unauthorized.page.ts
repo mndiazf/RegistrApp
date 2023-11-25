@@ -1,33 +1,53 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AnimationController } from '@ionic/angular';
-import { interval, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Animation, AnimationController } from '@ionic/angular';
+import { interval, Subject, EMPTY } from 'rxjs';
+import { takeUntil, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-unauthorized',
   templateUrl: './unauthorized.page.html',
   styleUrls: ['./unauthorized.page.scss'],
 })
-export class UnauthorizedPage implements OnInit {
-  private audio!: HTMLAudioElement;
-  private stopAudio$ = new Subject<void>();
+export class UnauthorizedPage implements OnInit, OnDestroy {
+  public audio!: HTMLAudioElement;
+  public stopAudio$ = new Subject<void>();
+  private animation?: Animation;
 
+  constructor(private animationCtrl: AnimationController) {}
 
-  constructor(private animationCtrl: AnimationController) { }
-
-  
   ngOnInit() {
+    // Crear el elemento de audio, pero no reproducir automáticamente
     this.audio = new Audio('../../../assets/unauthorized-audio.mp3');
-    this.audio.loop = true; // Reproducir el audio en bucle
+    this.audio.loop = true;
 
-    // Reproducir el audio durante 10 segundos
-    interval(67000).pipe(takeUntil(this.stopAudio$)).subscribe(() => {
-      this.stopAudio();
+    // Reproducir el audio después de hacer clic en algún lugar de la página
+    document.addEventListener('click', () => {
+      this.audio.play().catch((error) => {
+        console.error('Error al reproducir el audio:', error);
+      });
     });
 
-    this.audio.play();
-    this.animateImage()
+    // También puedes usar otro evento como 'touchstart' para dispositivos táctiles
+    // document.addEventListener('touchstart', () => {
+    //   this.audio.play().catch((error) => {
+    //     console.error('Error al reproducir el audio:', error);
+    //   });
+    // });
+
+    // Resto del código...
+    interval(67000)
+      .pipe(takeUntil(this.stopAudio$))
+      .subscribe(() => {
+        this.stopAudio();
+      });
+
+    this.animateImage();
+  }
+
+  ngOnDestroy() {
+    this.stopAudio();
+    this.stopAudio$.next();
+    this.stopAudio$.complete();
   }
 
   stopAudio() {
@@ -38,23 +58,24 @@ export class UnauthorizedPage implements OnInit {
     this.stopAudio$.next();
   }
 
-  ngOnDestroy() {
-    this.stopAudio();
-  }
   animateImage() {
     const image = document.querySelector('.my-image');
+
     if (image) {
-      const animation = this.animationCtrl.create()
+      this.animation = this.animationCtrl
+        .create()
         .addElement(image)
-        .duration(3500) // Duración de la animación en milisegundos
-        .iterations(Infinity) // Iterar la animación infinitamente
+        .duration(3500)
+        .iterations(Infinity)
         .keyframes([
-          { offset: 0, transform: 'scale(1)' }, // Tamaño original
-          { offset: 0.5, transform: 'scale(2.5)' }, // Escalar a 1.5 veces
-          { offset: 1, transform: 'scale(1)' }, // Tamaño original nuevamente
+          { offset: 0, transform: 'scale(1)' },
+          { offset: 0.5, transform: 'scale(2.5)' },
+          { offset: 1, transform: 'scale(1)' },
         ]);
-      animation.play();
-      
+
+      this.animation.play().catch((error) => {
+        console.error('Error al reproducir la animación:', error);
+      });
     }
   }
 }

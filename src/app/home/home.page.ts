@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,7 @@ export class HomePage {
 
   //Recuperacion de dato utilizando extras state
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
     const state = window.history.state;
     if (state && state.username) {
       this.username = state.username;
