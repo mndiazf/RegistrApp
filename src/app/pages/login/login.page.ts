@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { DatabaseService, User } from 'src/app/services/database.service';
+import { firstValueFrom } from 'rxjs';
+import { UserInfoResponse } from 'src/app/models/user-info-response.model';
+import { User } from 'src/app/models/user.model';
+import { LoginService } from 'src/app/services/login.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 
@@ -13,32 +16,49 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class LoginPage implements OnInit{
   username: string = '';
   password: string = '';
-  users: User[] = []; // Array para almacenar los usuarios
+  userType: string = '';
 
-  constructor(private databaseService: DatabaseService, private router:Router, private serviceUsuario:UsuarioService, private alertController: AlertController) {
+  constructor(private router:Router,private loginService:LoginService, private serviceUsuario:UsuarioService, private alertController: AlertController) {
 
   }
 
   ngOnInit() {
-    this.databaseService.initializePlugin();
   }
 
   async submitForm() {
-    const users: User[] = await this.databaseService.loadUsers();
-    const user = users.find((u) => u.name === this.username && u.password === this.password);
-    if (user) {
-      let navigationExtras: NavigationExtras = {
-        state: {
-          username: this.username
-        }
-      };
-      this.serviceUsuario.capturarUsuario(this.username);
-      this.router.navigate(['/home'], navigationExtras);
-    }else {
-      // El usuario no existe o es inválido, muestra un mensaje emergente
-      this.mostrarMensajeEmergente('Usuario no encontrado o inválido');
+    try {
+      const userInfoResponse: UserInfoResponse = await firstValueFrom(this.loginService.login(this.username, this.password));
+  
+      if (userInfoResponse) {
+        this.serviceUsuario.setUserInfo(userInfoResponse.id, userInfoResponse.username, userInfoResponse.userType);
+        this.serviceUsuario.capturarUsuario(this.username);
+  
+        const navigationExtras: NavigationExtras = {
+          state: {
+            userType: userInfoResponse.userType
+          }
+        };
+  
+        this.router.navigate(['/home'], navigationExtras);
+      } else {
+        this.mostrarMensajeEmergente('Usuario no encontrado o inválido');
+      }
+    } catch (error: any) {
+      console.error('Error al iniciar sesión:', JSON.stringify(error));
+  
+      if (error && error.status === 401) {
+        this.mostrarMensajeEmergente('Usuario o contraseña incorrectos');
+      } else if (error && error.error) {
+        // Si hay información específica del error en el objeto
+        this.mostrarMensajeEmergente(`Error al iniciar sesión: ${error.error}`);
+      } else {
+        this.mostrarMensajeEmergente('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+      }
     }
   }
+  
+  
+
   
   async mostrarMensajeEmergente(mensaje: string) {
     const alert = await this.alertController.create({

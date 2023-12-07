@@ -8,7 +8,7 @@ import { takeUntil, catchError } from 'rxjs/operators';
   templateUrl: './unauthorized.page.html',
   styleUrls: ['./unauthorized.page.scss'],
 })
-export class UnauthorizedPage implements OnInit, OnDestroy {
+export class UnauthorizedPage {
   public audio!: HTMLAudioElement;
   public stopAudio$ = new Subject<void>();
   private animation?: Animation;
@@ -26,15 +26,6 @@ export class UnauthorizedPage implements OnInit, OnDestroy {
         console.error('Error al reproducir el audio:', error);
       });
     });
-
-    // También puedes usar otro evento como 'touchstart' para dispositivos táctiles
-    // document.addEventListener('touchstart', () => {
-    //   this.audio.play().catch((error) => {
-    //     console.error('Error al reproducir el audio:', error);
-    //   });
-    // });
-
-    // Resto del código...
     interval(67000)
       .pipe(takeUntil(this.stopAudio$))
       .subscribe(() => {

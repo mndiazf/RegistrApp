@@ -26,3 +26,9 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+body.scanner-active {
+    --background: transparent;
+    --ion-background-color: transparent;
+  }
+  

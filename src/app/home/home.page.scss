@@ -34,3 +34,24 @@ ion-title{
   margin-top: 15px;
   text-align: center;
 }
+
+/* home.page.scss */
+
+.small-table {
+  width: 100%;
+  font-size: 10px; /* Tamaño de fuente más pequeño */
+}
+
+.small-table th, .small-table td {
+  padding: 5px; /* Espaciado más pequeño */
+}
+
+.small-table button {
+  font-size: 10px; /* Tamaño de fuente más pequeño para el botón */
+  padding: 3px 6px; /* Espaciado más pequeño para el botón */
+}
+
+.botoncito{
+  width: 20px;
+  color: red($color: #000000)
+}

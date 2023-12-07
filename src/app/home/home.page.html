@@ -1,17 +1,81 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      <!-- Llamado del dato recuperado en el home -->
-      Bienvenido: {{username}}
+      <!-- Mostrar mensaje de bienvenida según el tipo de usuario -->
+      <ng-container *ngIf="userType === 'Profesor'">
+        Bienvenido Profesor: <br> {{ username }}
+      </ng-container>
+      <ng-container *ngIf="userType === 'Alumno'">
+        Bienvenido Alumno: <br> {{ username }}
+      </ng-container>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large"></ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title>
+        <!-- Mostrar el botón correspondiente según el tipo de usuario -->
+        <ng-container *ngIf="userType === 'Profesor'">
+          <ion-button expand="full" (click)="onGenerarQR()">Generar Código QR</ion-button>
+          <ion-button expand="full" (click)="onVerAsistencia()">Ver Asistencia</ion-button>
+          <div *ngIf="mostrarCodigoQR">
+            <ngx-qrcode-styling [config]="config"></ngx-qrcode-styling>
+            <ion-button expand="full" (click)="onBorrarQR()">Borrar QR</ion-button>
+          </div>
+          <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="fechaSeleccionada">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <div *ngIf="mostrarListaAsistencias">
+      
 
+            <div *ngIf="asistencias && asistencias.length > 0">
+              <h3>Asistencias:</h3>
+              <table class="small-table">
+                <thead>
+                  <tr>
+                    <th>Usuario Alumno</th>
+                    <th>RUT Alumno</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let asistencia of asistencias">
+                    <td>{{ asistencia.usernameAlumno }}</td>
+                    <td>{{ asistencia.rutAlumno }}</td>
+                    <td>{{ asistencia.fecha | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ asistencia.hora}}</td>
+                    <td>
+                      <ion-button class="botoncito" (click)="borrarAsistencia(asistencia.id_asistencia)">x</ion-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="userType === 'Alumno'">
+          <ion-button *ngIf="isScanning" (click)="closeScanner()">Cerrar escaneo</ion-button>
+          <div *ngIf="!isScanning">
+            <ion-button (click)="askUser()">Iniciar escaneo</ion-button>
+          </div>
+          <div *ngIf="scanResult">
+            <p>Resultado del escaneo: {{ scanResult }}</p>
+            <p>Id del profe: {{ idDesencriptado }}</p>
+          </div>
+          
+        </ng-container>
+      </ion-card-title>
+      <!-- Aquí puedes agregar el contenido adicional según el tipo de usuario -->
+    </ion-card-content>
+  </ion-card>
 </ion-content>
