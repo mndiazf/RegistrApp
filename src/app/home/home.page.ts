@@ -35,6 +35,7 @@ export class HomePage {
     if (state && state.userType) {
       this.userType = state.userType;
     }
+    this.username = this.usuarioService.obtenerUsuario();
   }
 
   onGenerarQR() {
@@ -80,24 +81,34 @@ export class HomePage {
 
   guardarAsistencia() {
     this.idDesencriptado = this.desencriptarId(this.scanResult);
-    this.idOriginal = this.getUserId()
+    this.idOriginal = this.getUserId();
     const qrLogRequest: QrLogRequest = {
       idProfesor: this.idDesencriptado,
       idAlumno: this.idOriginal
     };
-
+  
     this.asistenciaService.guardarAsistencia(qrLogRequest)
       .subscribe({
-        next: (mensaje) => {
-          console.log(mensaje);
-          // Realizar acciones adicionales después de guardar la asistencia
+        next: () => {
+          this.mostrarAlerta('Asistencia Registrada', 'La asistencia se ha registrado exitosamente.');
         },
         error: (error) => {
           console.error('Error al guardar asistencia:', error);
-          // Manejar el error según tus necesidades
+          this.mostrarAlerta('Error en el Registro', 'Ocurrió un error al registrar la asistencia.');
         },
       });
   }
+  
+  async mostrarAlerta(titulo: string, mensaje: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
+  }
+  
 
   
   
